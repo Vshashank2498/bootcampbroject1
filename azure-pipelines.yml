@@ -13,10 +13,8 @@ steps:
     packageType: 'sdk'
     version: '7.0.x'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'restore'
-    projects: 'BootcampWebApp/BootcampWebApp.csproj'
+- script: dotnet restore BootcampWebApp/BootcampWebApp.csproj
+  displayName: 'Restore dependencies'
 
 - script: dotnet build BootcampWebApp/BootcampWebApp.csproj --configuration $(buildConfiguration)
   displayName: 'Build application'
