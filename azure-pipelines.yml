@@ -1,5 +1,5 @@
 trigger:
-- master
+- master  # Or "main" if you're using that
 
 pool:
   vmImage: 'windows-latest'
@@ -8,24 +8,20 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dir
-  displayName: 'List files in root directory'
-
-- script: dir BootcampWebApp
-  displayName: 'List files in BootcampWebApp folder'
-  continueOnError: true  # in case folder doesn't exist yet
+- script: dir /s /b
+  displayName: 'List all files in repo (for debug)'
 
 - task: UseDotNet@2
+  displayName: 'Install .NET SDK'
   inputs:
     packageType: 'sdk'
     version: '7.0.x'
 
-- script: dotnet restore BootcampWebApp/BootcampWebApp.csproj
+- script: dotnet restore BootcampProject.sln
   displayName: 'Restore dependencies'
-  continueOnError: false
 
-- script: dotnet build BootcampWebApp/BootcampWebApp.csproj --configuration $(buildConfiguration)
-  displayName: 'Build application'
+- script: dotnet build BootcampProject.sln --configuration $(buildConfiguration)
+  displayName: 'Build solution'
 
 - script: dotnet test BootcampWebApp.Tests/BootcampWebApp.Tests.csproj --no-build --verbosity normal
   displayName: 'Run unit tests'
