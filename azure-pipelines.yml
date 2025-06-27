@@ -1,5 +1,5 @@
 trigger:
-- master  # Adjust if your branch name changes
+- master
 
 pool:
   vmImage: 'windows-latest'
@@ -9,32 +9,25 @@ variables:
 
 steps:
 
-# Debug: List files to verify structure
 - script: dir /s /b
-  displayName: 'List all files in the repo'
+  displayName: '🧪 Check file tree structure'
 
-# Install .NET SDK (adjust version if needed)
 - task: UseDotNet@2
-  displayName: 'Install .NET 7 SDK'
+  displayName: 'Install .NET SDK'
   inputs:
     packageType: 'sdk'
     version: '7.0.x'
 
-# Restore dependencies
-- script: dotnet restore BootcampProject.sln
+- script: dotnet restore BootcampProject.sln  # <-- Adjust this based on output
   displayName: 'Restore dependencies'
 
-# Build the full solution
 - script: dotnet build BootcampProject.sln --configuration $(buildConfiguration)
   displayName: 'Build the solution'
 
-# Run unit tests
 - script: dotnet test BootcampWebApp.Tests/BootcampWebApp.Tests.csproj --no-build --verbosity normal
   displayName: 'Run unit tests'
 
-# Publish artifacts for deployment
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Build Artifacts'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
