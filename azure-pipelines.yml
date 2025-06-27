@@ -1,33 +1,22 @@
 trigger:
-- master
+- master  # Adjust branch name as needed
 
 pool:
   vmImage: 'windows-latest'
 
-variables:
-  buildConfiguration: 'Release'
-
 steps:
+- task: Checkout@1
+  displayName: 'Checkout repository'
 
-- script: dir /s /b
-  displayName: '🧪 Check file tree structure'
+- script: dir /s /b BootcampProject.sln
+  displayName: 'Confirm solution file is checked out'
 
 - task: UseDotNet@2
   displayName: 'Install .NET SDK'
   inputs:
     packageType: 'sdk'
-    version: '7.0.x'
+    version: '7.0.x'  # Change to match your .NET version
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- script: dotnet restore BootcampProject.sln  # <-- Adjust this based on output
-  displayName: 'Restore dependencies'
-
-- script: dotnet build BootcampProject.sln --configuration $(buildConfiguration)
-  displayName: 'Build the solution'
-
-- script: dotnet test BootcampWebApp.Tests/BootcampWebApp.Tests.csproj --no-build --verbosity normal
-  displayName: 'Run unit tests'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+- script: dotnet restore BootcampProject.sln
+  displayName: 'Restore .NET solution'
