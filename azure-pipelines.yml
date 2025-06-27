@@ -8,6 +8,13 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- script: dir
+  displayName: 'List files in root directory'
+
+- script: dir BootcampWebApp
+  displayName: 'List files in BootcampWebApp folder'
+  continueOnError: true  # in case folder doesn't exist yet
+
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
@@ -15,6 +22,7 @@ steps:
 
 - script: dotnet restore BootcampWebApp/BootcampWebApp.csproj
   displayName: 'Restore dependencies'
+  continueOnError: false
 
 - script: dotnet build BootcampWebApp/BootcampWebApp.csproj --configuration $(buildConfiguration)
   displayName: 'Build application'
