@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootcampWebApp", "BootcampWebApp\BootcampWebApp.csproj", "{8E137F91-2516-4D17-81CB-6EAE40E120E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootcampWebApp.Tests", "BootcampWebApp.Tests\BootcampWebApp.Tests.csproj", "{5B5ADBF6-78BA-489E-9D76-F35C7753ECF6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E137F91-2516-4D17-81CB-6EAE40E120E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E137F91-2516-4D17-81CB-6EAE40E120E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E137F91-2516-4D17-81CB-6EAE40E120E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E137F91-2516-4D17-81CB-6EAE40E120E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B5ADBF6-78BA-489E-9D76-F35C7753ECF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B5ADBF6-78BA-489E-9D76-F35C7753ECF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B5ADBF6-78BA-489E-9D76-F35C7753ECF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B5ADBF6-78BA-489E-9D76-F35C7753ECF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
