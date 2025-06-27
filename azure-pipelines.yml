@@ -1,22 +1,47 @@
 trigger:
-- master  # Adjust branch name as needed
+- master  # Adjust if your main branch has a different name
 
 pool:
   vmImage: 'windows-latest'
 
+variables:
+  buildConfiguration: 'Release'
+
 steps:
+# Step 1: Checkout source code
 - task: Checkout@1
   displayName: 'Checkout repository'
 
-- script: dir /s /b BootcampProject.sln
-  displayName: 'Confirm solution file is checked out'
+# Step 2: Display file tree to verify structure
+- script: dir /s /b
+  displayName: '🧪 Check file tree structure'
 
+# Step 3: Confirm solution file exists
+- script: dir /s /b BootcampProject.sln
+  displayName: '✅ Confirm solution file is checked out'
+
+# Step 4: Install .NET SDK
 - task: UseDotNet@2
   displayName: 'Install .NET SDK'
   inputs:
     packageType: 'sdk'
-    version: '7.0.x'  # Change to match your .NET version
-    installationPath: $(Agent.ToolsDirectory)/dotnet
+    version: '7.0.x'  # Update to match your project
 
+# Step 5: Restore dependencies
 - script: dotnet restore BootcampProject.sln
-  displayName: 'Restore .NET solution'
+  displayName: 'Restore .NET dependencies'
+
+# Step 6: Build solution
+- script: dotnet build BootcampProject.sln --configuration $(buildConfiguration)
+  displayName: 'Build the solution'
+
+# Step 7: Run tests
+- script: dotnet test BootcampWebApp.Tests/BootcampWebApp.Tests.csproj --no-build --verbosity normal
+  displayName: '🧪 Run unit tests'
+
+# Step 8: Publish build artifacts (optional)
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
