@@ -1,5 +1,5 @@
 trigger:
-- master  # Change if your default branch is different
+- master  # Adjust if needed
 
 pool:
   vmImage: 'windows-latest'
@@ -12,11 +12,11 @@ steps:
 - task: Checkout@1
   displayName: '📥 Checkout repository'
 
-# Step 2: Show folder/file structure
+# Step 2: Show file structure to debug
 - script: dir /s /b
   displayName: '🧪 Show full file tree'
 
-# Step 3: Confirm solution file path
+# Step 3: Confirm solution file exists
 - powershell: |
     Get-ChildItem -Path "$(Build.SourcesDirectory)" -Recurse -Filter "BootcampProject.sln"
   displayName: '🔍 Locate BootcampProject.sln'
@@ -28,21 +28,28 @@ steps:
     packageType: 'sdk'
     version: '7.0.x'
 
-# Step 5: Restore dependencies (adjust path based on previous step)
-- script: dotnet restore BootcampWebApp/BootcampProject.sln
-  displayName: 'Restore .NET dependencies'
+# Step 5: Restore dependencies
+- script: dotnet restore BootcampProject.sln
+  displayName: '📦 Restore .NET dependencies'
 
 # Step 6: Build solution
-- script: dotnet build BootcampWebApp/BootcampProject.sln --configuration $(buildConfiguration)
-  displayName: 'Build the solution'
+- script: dotnet build BootcampProject.sln --configuration $(buildConfiguration)
+  displayName: '🏗️ Build the solution'
 
 # Step 7: Run tests
 - script: dotnet test BootcampWebApp.Tests/BootcampWebApp.Tests.csproj --no-build --verbosity normal
-  displayName: 'Run unit tests'
+  displayName: '🧪 Run unit tests'
 
-# Step 8: Publish build artifacts
+# Step 8: Prepare artifacts
+- script: |
+    mkdir "$(Build.ArtifactStagingDirectory)"
+    copy /Y BootcampWebApp\bin\$(buildConfiguration)\*.* "$(Build.ArtifactStagingDirectory)"
+  displayName: '📂 Copy build outputs to staging'
+
+# Step 9: Publish artifacts
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish artifacts'
+  displayName: '📦 Publish artifacts'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
+    publishLocation: 'Container'
